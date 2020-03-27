@@ -21,6 +21,15 @@ class LinkedList:
         # reference to the head of the list
         self.head = None
 
+    def __str__(self):
+        node = self.head
+
+        values = ""
+        while node is not None:
+            values += str(node.value) + " "
+            node = node.get_next()
+        return values
+
     def add_to_head(self, value):
         node = Node(value)
         if self.head is not None:
@@ -45,22 +54,30 @@ class LinkedList:
         # if we've gotten here, then the target node isn't in our list
         return False
 
-    def reverse_list(self, node, prev):
+    def reverse_list(self, node):
         # You must use recursion for this solution
 
-        current_node = self.head
-        prev_node = None
+        # Take in an empty list
+        # If node equals none
+        if node == None:
+            # Return none
+            return None
 
-        # Iterate through the single linked list
+        # Add base case
+        # If the next node equals none
+        if node.get_next() == None:
+            # The head node equals that node
+            self.head = node
+            return
+        # Otherwise
+        else:
+            # Call the next node until end of the list
+            self.reverse_list(node.get_next())
 
-        # While current_node exists (head node at first) sets base
-        while current_node is not None:
-            # Store next_node as the next node past the head
-            next_node = current_node.get_next()
-            # Set the node thats past the head to the previous node (Shifts over the value)
-            current_node.set_next(prev_node)
-            # Now set prev_node equal to current_node (value change)
-            prev_node = current_node
-            # And current_node equal to next_node (values reversed)
-            current_node = next_node
-        self.head = prev_node
+            # 1 -> 2
+            # 1 -> 2 -> 1
+            # 1 -> None
+            # Ends with 2 -> 1
+            node.get_next().set_next(node)
+
+            node.set_next(None)
